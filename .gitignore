@@ -1,0 +1,7 @@
+*.env
+*.sqlite3
+*.pyc
+*.code-workspace
+__pycache__/
+.vscode/
+.pytest_cache/
