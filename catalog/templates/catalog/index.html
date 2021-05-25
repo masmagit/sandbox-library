@@ -1,0 +1,18 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block title %}
+<title>Local Library</title>
+{% endblock %}
+
+{% block content %}
+  <h2>Local Library: Home</h2>
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Books:</strong> {{ num_books }}</li>
+    <li><strong>Copies:</strong> {{ num_instances }}</li>
+    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+    <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Genres:</strong> {{ num_genres }}</li>
+    <li><strong>Books with word "{{ num_books_word.0 }}":</strong> {{ num_books_word.1 }}</li>
+  </ul>
+{% endblock %}
