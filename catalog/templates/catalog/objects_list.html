@@ -1,0 +1,20 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+<h2>Local Library: {{ title }}</h2>
+  {% if object_list %}
+  <ul>
+    {% for obj in object_list %}
+      <li>
+        {% if model == 'book' %}
+        <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> ({{ obj.author }})
+        {% elif model == 'author' %}
+        <a href="{{ obj.get_absolute_url }}">{{ obj.first_name }} {{ obj.last_name }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>{{ no_data }}</p>
+  {% endif %} 
+{% endblock %}

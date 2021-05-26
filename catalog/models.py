@@ -76,6 +76,8 @@ class BookInstance(models.Model):
         ('r', 'Reserved'),
     )
 
+    # Method get_status_display() is automatically created (this is done for every choice field), 
+    # this method can be used to get the current value of the field.
     status = models.CharField(
         max_length=1,
         choices=LOAN_STATUS,
