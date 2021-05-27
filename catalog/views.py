@@ -42,6 +42,11 @@ class AuthorDetailView(generic.DetailView):
 
 def index(request):
     """View function for home page of site."""
+    if request.session.test_cookie_worked():
+        request.session.delete_test_cookie()
+    else:
+        request.session.set_test_cookie()
+    
     # Generate counts of some of the main objects
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
@@ -52,6 +57,10 @@ def index(request):
     word = "Life"
     num_books_word = Book.objects.filter(title__icontains=word).count()
 
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -59,6 +68,7 @@ def index(request):
         'num_authors': num_authors,
         'num_genres': num_genres,
         'num_books_word': (word, num_books_word),
+        'num_visits': num_visits,
     }
 
     return render(request, 'catalog/index.html', context=context)
