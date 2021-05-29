@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from catalog.models import Book, Author, BookInstance, Genre
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class BookListView(generic.ListView):
     model = Book
@@ -24,7 +25,6 @@ class BookDetailView(generic.DetailView):
     def inFuncBasedView(request, primary_key):
         book = get_object_or_404(Book, pk=primary_key)
 
-
 class AuthorListView(generic.ListView):
     model = Author
     template_name = 'catalog/objects_list.html'
@@ -38,6 +38,27 @@ class AuthorListView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+
+# LoginRequiredMixin plays the same role as @login_required decorator
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    """Generic class-based view listing books on loan to current user."""
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class LoanedBooksListView(PermissionRequiredMixin, LoanedBooksByUserListView):
+    permission_required = ('catalog.can_mark_returned')
+
+    def get_context_data(self, **kwargs):
+        context = super(LoanedBooksListView, self).get_context_data(**kwargs)
+        context['show_borrower'] = True
+        return context
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')    
 
 
 def index(request):
