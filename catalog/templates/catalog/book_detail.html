@@ -10,6 +10,9 @@
   <p><strong>Language:</strong> {{ book.language }}</p>
   <p><strong>Genre:</strong> {{ book.genre.all|join:", "}}</p>
 
+  <div><a href="{% url 'book-update' book.id %}">Update</a></div>
+  <div><a href="{% url 'book-delete' book.id %}">Delete</a></div>
+
   {% if book.bookinstance_set.exists %}
   <div style="margin-top:50px">
     <h4>Book Copies</h4>

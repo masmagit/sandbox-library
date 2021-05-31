@@ -3,6 +3,8 @@
 {% block content %}
   <h2>Local Library: Author</h2>
   <h2>{{ author }}</h2>
+  <div><a href="{% url 'author-update' author.id %}">Update</a></div>
+  <div><a href="{% url 'author-delete' author.id %}">Delete</a></div>
 
   {% if author.book_set.exists %}
   <div style="margin-top:50px">

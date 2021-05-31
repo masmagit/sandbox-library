@@ -14,6 +14,11 @@
       </li>
     {% endfor %}
   </ul>
+    {% if model == 'author' %}
+      <div><a href="{% url 'author-create' %}"> >> Create a new author</a></div>
+    {% elif model == 'book' %}
+      <div><a href="{% url 'book-create' %}"> >> Create a new book</a></div>
+    {% endif %}
   {% else %}
     <p>{{ no_data }}</p>
   {% endif %} 
